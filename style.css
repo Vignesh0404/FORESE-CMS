@@ -1,0 +1,13 @@
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+.form-div {
+	margin: 80px auto 80px;
+	padding: 25px 15px 10px 15px;
+	border: 1px solid #191919;
+	border-radius: 5px;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+.form-div.login {
+	margin-top: 180px;
+}
