@@ -1,5 +1,5 @@
 <?php 
-require 'swiftmail.php';
+require 'mailController.php';
 require_once 'database.php';
 session_start();
 $errors = [];
@@ -58,13 +58,13 @@ if (isset($_POST['signup-btn'])) {
 		 $stmt->bind_param('ssbss', $username, $email, $verified, $token, $password);
 		 
 		 if ($stmt->execute()) {
-		 	$user_id = $conn->insert_id;
-		 	$_SESSION['id'] = $user_id;
+		 	$user_id = $conn->insert_vid;
+		 	$_SESSION['vid'] = $user_vid;
 		 	$_SESSION['username'] = $username;
 		 	$_SESSION['email'] = $email;
 		 	$_SESSION['verified'] = $verified;
 
-sendVerificationEmail($email, $token);
+sendVerificationEmail($email, $token,$username);
 
 		 	$_SESSION['alert-class'] = "alert-success";
 		 	header('location: home.php');
@@ -105,7 +105,7 @@ if (isset($_POST['login-btn'])) {
 
 	 if (password_verify($password, $user['password'])) {
 
-		 	$_SESSION['id'] = $user[id];
+		 	$_SESSION['vid'] = $user[vid];
 		 	$_SESSION['username'] = $user['username'];
 		 	$_SESSION['email'] = $user['email'];
 		 	$_SESSION['verified'] = $user['verified'];
@@ -125,7 +125,7 @@ if (isset($_POST['login-btn'])) {
  if (isset($_GET['logout'])) {
  	# code...
  	session_destroy();
- 	unset($_SESSION['id']);
+ 	unset($_SESSION['vid']);
  	unset($_SESSION['username']);
  	unset($_SESSION['email']);
  	unset($_SESSION['verified']);
