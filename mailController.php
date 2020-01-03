@@ -7,7 +7,7 @@ require_once 'PHPMailer-5.2-stable/PHPMailerAutoload.php';
 
 
 
-function sendVerificationEMail($email, $token, $username)
+function sendVerificationEMail($userEmail, $token)
  {
 $mail = new PHPMailer(true);
 
@@ -46,7 +46,7 @@ if(!$mail->send()) {
 }
 }
 
-function verifyEmail($token)
+function verifyEmail($userEmail, $token)
 {
     global $conn;
     $sql = "SELECT * FROM users WHERE token='$token' LIMIT 1";
@@ -55,8 +55,8 @@ function verifyEmail($token)
         $user = mysqli_fetch_assoc($result);
         $query = "UPDATE users SET verified=1 WHERE token='$token'";
         if (mysqli_query($conn, $query)) {
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['email'] = $user['email'];
+            
+            $_SESSION['userEmail'] = $user['userEmail'];
             $_SESSION['verified'] = true;
             $_SESSION['message'] = "Your email address has been verified successfully";
             $_SESSION['type'] = 'alert-success';
@@ -66,6 +66,11 @@ function verifyEmail($token)
     } else {
         echo "User not found!";
     }
+}
+
+function sendPasswordResetLink($userEmail, $token) 
+{
+    
 }
 
  

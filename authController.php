@@ -48,6 +48,19 @@ if (isset($_POST['signup-btn'])) {
 	 }
 
 
+	  $nameQuery = "SELECT * FROM users WHERE username=? LIMIT 1"; 
+	 $stmt = $conn->prepare($nameQuery);
+	 $stmt->bind_param('s', $username);
+	 $stmt->execute();
+	 $result = $stmt->get_result();
+	 $userCount = $result->num_rows;
+	 $stmt->close();
+
+	 if ($userCount > 0) {
+	 	$errors['email'] = "Username already exists"; 
+	 }
+
+
 	 if (count($errors) == 0) {
 	 	$password = password_hash($password, PASSWORD_DEFAULT);
 	 	$token = bin2hex(random_bytes(50));
@@ -132,3 +145,30 @@ if (isset($_POST['login-btn'])) {
  	header('location: signin.php');
  	exit();
  }
+
+// forgot password section 
+
+ if (isset($_POST['forgotpass-btn'])) {
+ 	# code...
+ 	$email = $_POST['email'];
+ 	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+ 		$errors['email'] = "Email address is invalid";
+ 	}
+
+ 	if (empty($email)) {
+ 		$errors['email'] = "Email Required";
+ 	}
+
+ 	if (count($errors)== 0) {
+ 		$sql = "SELECT * FROM users WHERE email='$email' LIMIT 1";
+ 		$result = mysqli_query($conn,$sql);
+ 		$user = mysqli_fetch_assoc($result);
+ 		$token = $user['token'];
+ sendPasswordResetLink($email, $token);
+ 	header('location: changepass.php');
+ 	exit(0);
+ 	}
+ }
+
+
+

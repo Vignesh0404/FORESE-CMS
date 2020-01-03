@@ -1,5 +1,11 @@
-
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+body{
+	position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
 .form-div {
 	margin: 80px auto 80px;
 	padding: 25px 15px 10px 15px;

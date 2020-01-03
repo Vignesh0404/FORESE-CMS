@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>FORESE-DB | Sign In</title>
+	<title>FORESE-DB | Forgot password</title>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
@@ -13,10 +13,14 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4 offset-md-4 form-div login">
-					<form action="signin.php" method="POST">
+					<form action="forgotpass.php" method="POST">
 						
-						<h1 class="text-center"><font face="Poppins" size="7"><b>Login Here</b></font></h1>
+						<h1 class="text-center"><font face="Poppins" size="7"><b>Recover your password</b></font></h1>
 					</br>
+					<p>
+						Please enter your email address you used to sign up on this site
+						 and we will assit you in recovering your password.
+					</p>
 
 						<?php if (count($errors) > 0): ?>
 						<div class="alert alert-danger">
@@ -27,23 +31,15 @@
 						<?php endif; ?>
 
 						<div class="form-group">
-							<label for="username">Email/Username</label>
-							<input type="text" name="username" value="<?php echo $username; ?>" class="form-control form-control-lg">
-						</div>
-
-
-						<div class="form-group">
-							<label for="password">Password</label>
-							<input type="password" name="password" class="form-control form-control-lg">
+							
+							<input type="text" name="email" class="form-control form-control-lg">
 						</div>
 
 						<div class="form-group">
-							<button type="submit" name="login-btn" class="btn btn-primary btn-block btn-lg">Login</button>
+							<button type="submit" name="forgotpass-btn" class="btn btn-primary btn-block btn-lg">Recover Password</button>
 						</div>
-
-						<p class="text-center">New to Database?<a href="signup.php">  Register Now</a>
-						<p class="text-center"><a href="forgotpass.php">Forgot Password?</a></p>
-
+						<p class="text-center">By mistake?<a href="signup.php"> Sign in</a>
+						
 					</form>
 				</div>
 			</div>

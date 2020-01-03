@@ -1,4 +1,5 @@
 <?php 
+	include 'conn.php';
 	require_once 'authController.php';
      require_once 'mailcontroller.php';
       
@@ -6,7 +7,9 @@
     if (isset($_get['token'])) {
         $token = $_GET['token'];
         verifyuser($token);
-    }
+    } 
+
+    
 
     if (!isset($_SESSION['vid'])) {
         header('location: signin.php');
@@ -22,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 </head>
@@ -36,15 +40,17 @@
                 id="luxbar-hamburger" for="luxbar-checkbox"> <span></span> </label>
             </li>
             
-            <li class="luxbar-item"><a href="faq.html">My Account</a></li>
+            <li class="luxbar-item"><a href="account.php">My Account</a></li>
             <li class="luxbar-item"><a href="home.php?logout=1">Sign Out</a></li>
         </ul>
     </div>
 </header>
+		<div id="body">
 			</br>
 			</br>
 			</br>
-			<h3 class="text-primary">Hello, <?php echo $_SESSION['username']; ?></h3>
+			<?php $uname = $_SESSION['username']; ?>
+			<h3 class="text-primary"> Welcome, <?php echo $uname; ?></h3>
 			 <hr style="border-top:1px dotted #ccc;"/>
  			<br/>
 
@@ -59,23 +65,39 @@
             <?php endif; ?>
 
             <?php if (!$_SESSION['verified']): ?>
- 			<div class="alert alert-warning">
-
- 			<center>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+			  <center>
  				You need to verify your account.
  				Sign in to your email account and click on
  				the verification link at
  				 <strong><?php echo $_SESSION['email']; ?></strong>
- 			</center>
- 			</div>
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
             <?php endif; ?>
-            <?php if($_SESSION['verified']): ?>
-                <button class="btn btn-block btn-lg btn-primary">You're verified</button>
+
+            <?php if ($_SESSION['verified']): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+			  <center>
+ 				
+ 				 <strong>You're Verified</strong>
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
             <?php endif; ?>
+
+            
+
+
+            
+
+
  			<br/>
-           <div class="container" style="width:900px;">
+           <div class="container" style="width:900px; right: 0px;">
                 <h2 align="center">HR CONTACT MANAGMENT SYSTEM</h2>
-                <h6 align="center">Click the button to 'add in new a new contact'</h6><br />
+                <h6 align="center">Click the button to 'add in a new contact'</h6><br />
 					
 
 					<!-- Modal -->
@@ -91,63 +113,256 @@
 					        </button>
 					      </div>
 
-					      <form action="insert.php" method="POST">
+					      <form action="conn.php" method="POST">
 					      <div class="modal-body">
 					        
 							  <div class="form-group">
 							    <label>Name</label>
-							    <input type="text" class="form-control" name="hrname">
+							    <input type="text" class="form-control" name="hrname" placeholder="Enter the HR Name">
 							  </div>
-							  
+							  <input type="hidden" class="form-control" name="username" value=<?php echo $uname; ?>>							  
 							  <div class="form-group">
 							    <label>Company</label>
-							    <input type="text" class="form-control" name="company">
+							    <input type="text" class="form-control" name="company" placeholder="Enter the HR's Company">
 							  </div>
 
 							  <div class="form-group">
 							    <label>Email</label>
-							    <input type="email" class="form-control" name="emailid">
+							    <input type="email" class="form-control" name="emailid" placeholder="Enter the HR's Email">
 							  </div>
 
 							  <div class="form-group">
 							    <label>Ph-Num</label>
-							    <input type="number" class="form-control" name="phno">
+							    <input type="number" class="form-control" name="phno" placeholder="Enter the phone number of the HR">
 							  </div>
 
 							  <div class="form-group">
 							    <label>Address</label>
-							    <input type="text" class="form-control" name="address">
+							    <input type="text" class="form-control" name="address" placeholder="Enter the Address">
 							  </div>
-
 							  <div class="form-group">
-							    <label>Status</label>
-							    <input type="text" class="form-control" name="status" >
-							  </div>
+							  	<label>Status</label>
+							  <select class="form-control" name="status" type="text">
+							  	
+							  <option>Called/Accepted</option>
+							  <option>Called/Declined</option>
+							  <option>Called/Emailed</option>
+							  <option>Called/YetToMail</option>
+							  <option>Called/NotCalled</option>
+							  <option>Called/SwitchedOff</option>
+							  <option>Called/NotReacheable</option>
+							  <option>Others</option>
+								</select>
+								</div>
+
+							  
 
 							  <div class="form-group">
 							    <label>Dates</label>
-							    <input type="number" class="form-control" name="dates" >
+							    <input type="number" class="form-control" name="dates" placeholder="Enter the num of dates" >
 							  </div>
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					        <button type="submit" name="submit" class="btn btn-success">Save changes</button>
+					        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+					        <button type="submit" name="submit" class="btn btn-primary">Save Data</button>
 					      </div>
 					      </form>
 					    </div>
 					  </div>
 					</div>
+
+
+			<!-- ######################################################################################################-->
+
+				<!-- EDIT  -->
+
+				<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="hrdetailmodal">Edit Hr details</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+
+					      <form action="conn.php" method="POST">
+					      <div class="modal-body">
+					        <input type="hidden" name="edit_id" id="edit_id">
+							  <div class="form-group">
+							    <label>Name</label>
+							    <input type="text" class="form-control" name="hrname" id="hrname" placeholder="Enter the HR Name">
+							  </div>
+							  
+							  <div class="form-group">
+							    <label>Company</label>
+							    <input type="text" class="form-control" name="company" id="company" placeholder="Enter the HR's Company">
+							  </div>
+
+							  <div class="form-group">
+							    <label>Email</label>
+							    <input type="email" class="form-control" name="emailid" id="emailid" placeholder="Enter the HR's Email">
+							  </div>
+
+							  <div class="form-group">
+							    <label>Ph-Num</label>
+							    <input type="number" class="form-control" name="phno" id="phno" placeholder="Enter the phone number of the HR">
+							  </div>
+
+							  <div class="form-group">
+							    <label>Address</label>
+							    <input type="text" class="form-control" name="address" id="address" placeholder="Enter the Address">
+							  </div>
+
+							  <div class="form-group">
+							  	<label>Status</label>
+							  <select class="form-control" name="status" id="status" type="text">
+							  	
+							  <option>Called/Accepted</option>
+							  <option>Called/Declined</option>
+							  <option>Called/Emailed</option>
+							  <option>Called/YetToMail</option>
+							  <option>Called/NotCalled</option>
+							  <option>Called/SwitchedOff</option>
+							  <option>Called/NotReacheable</option>
+							  <option>Others</option>
+								</select>
+
+								</div>
+
+							  <div class="form-group">
+							    <label>Dates</label>
+							    <input type="number" class="form-control" name="dates" id="dates" placeholder="Enter the num of dates" >
+							  </div>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+					        <button type="submit" name="updatedata" class="btn btn-primary">Save changes</button>
+					      </div>
+					      </form>
+					    </div>
+					  </div>
+					</div>
+
+
+			<!-- ######################################################################################################-->
+
+
+
+
+
+			<!-- ######################################################################################################-->
+
+				<!-- DELETE  -->
+
+				<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="hrdetailmodal">Delete Hr contact</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+
+					      <form action="conn.php" method="POST">
+					      <div class="modal-body">
+					        <input type="hidden" name="delete_id" id="delete_id">
+						    <h4><font face="Poppins">Do you want to delete this contact?</font></h4>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+					        <button type="submit" name="deletedata" class="btn btn-dark">Yes</button>
+					      </div>
+					      </form>
+					    </div>
+					  </div>
+					</div>
+
+
+			<!-- ######################################################################################################-->
                 	
 
                 	<div class="container">
+                	 
                 		<div class="card-body">
-                			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#hrdetailmodal" style="position: absolute; right: 730px;top: 290px; color: black;">
-							  <i class="fas fa-user-plus"></i>
+                			<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#hrdetailmodal" style="position: fixed; right: 100px;top: 250px; color: black;">
+							  <i class="fas fa-user-plus"></i> Add Contact
 							</button>
-                			
-                		</div>
+                		</div>	
                 	</div>
 
+
+                	<div class="card" style="width: 1100px; ">
+                		
+                		<div class="card-body" >
+                			
+
+                					
+                			
+                			 <?php
+                			 
+		                			$display = "SELECT * FROM `contacts` WHERE `username` = '$uname'";
+		                			$display_run = mysqli_query($conn,$display);
+
+		                			
+
+		                	?>
+
+
+
+                			<div class="table-responsive">
+                			<table id="datatable" class="table table-bordered" align="center">
+						  <thead class="thead-dark">
+						    <tr>
+						      <th scope="col">Name</th>
+						      <th scope="col">Company</th>
+						      <th scope="col">PhNum</th>
+						      <th scope="col">Email ID</th>
+						      <th scope="col">Address</th>
+						      <th scope="col">Status</th>
+						      <th scope="col">Dates</th>
+						      <th scope="col">EDIT</th>
+						      <th scope="col">DELETE</th>
+
+						    </tr>
+						  </thead>
+
+						  <?php
+
+		                			if ($display_run) {
+		                				foreach ($display_run as $row) {
+		                	?>	
+						  <tbody>
+						    <tr>
+						      
+						      <td><?php echo $row['hrname']; ?></td>
+						      <td><?php echo $row['company']; ?></td>
+						      <td><?php echo $row['phno']; ?></td>
+						      <td><?php echo $row['emailid']; ?></td>
+						      <td><?php echo $row['address']; ?></td>
+						      <td><?php echo $row['status']; ?></td>
+						      <td><?php echo $row['dates']; ?></td>
+						      <td><button type="button" class="btn btn-success editbtn">EDIT</button></td>
+						      <td><button type="button" class="btn btn-danger deletebtn">DELETE</button></td>
+						    </tr>
+						  </tbody>
+						  <?php				
+		                				}
+		                			}
+
+		                			else 
+		                			{ 
+		                				echo "No Record Found!";
+		                			}
+                			 ?>
+						</table>
+					</div>
+
+                
+                	</div>
+                	</div>
+                </div>
 
 
 
@@ -155,6 +370,82 @@
                 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 				<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+				<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+				<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
+				<!-- table filter-->
+
+				<script>
+					$(document).ready(function() {
+				    $('#datatable').DataTable({
+				    	"pagingType": "full_numbers",
+				    	"lengthMenu": [
+				    	[10, 25, 50, -1],
+				    	[10, 25, 50, "All"]
+				    	],
+				    	responsive: true,
+				    	language: {
+				    		search:"_INPUT_",
+				    		searchPlaceholder: "Search Records",
+				    	}
+				    });
+					} );
+				</script>
+				
+				<script>
+					$(document).ready(function(){
+						$('.deletebtn').on('click', function(){
+							$('#deletemodal').modal('show');
+
+							$tr = $(this).closest('tr');
+
+							var data = $tr.children("td").map(function() {
+								return $(this).text();
+							}).get();
+
+							console.log(data);
+							$('#delete_id').val(data[0]);
+							
+							
+						});
+
+					});
+				</script>
+
+
+
+
+				<script>
+					$(document).ready(function(){
+						$('.editbtn').on('click', function(){
+							$('#editmodal').modal('show');
+
+							$tr = $(this).closest('tr');
+
+							var data = $tr.children("td").map(function() {
+								return $(this).text();
+							}).get();
+
+							console.log(data);
+							
+							$('#hrname').val(data[0]);
+							$('#company').val(data[1]);
+							$('#phno').val(data[2]);
+							$('#emailid').val(data[3]);
+							$('#address').val(data[4]);
+							$('#status').val(data[5]);
+							$('#dates').val(data[6]);
+						});
+
+					});
+				</script>
+
+				 <script>
+
+        
+
+    </script>
            
 </body>
 </html>
