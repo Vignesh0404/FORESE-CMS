@@ -7,6 +7,9 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+		
+	</style>
 
 </head>
 <body>
@@ -40,9 +43,11 @@
 						<div class="form-group">
 							<button type="submit" name="login-btn" class="btn btn-primary btn-block btn-lg">Login</button>
 						</div>
-
-						<p class="text-center">New to Database?<a href="signup.php">  Register Now</a>
 						<p class="text-center"><a href="forgotpass.php">Forgot Password?</a></p>
+						<p class="text-center">New to Database?<a href="signup.php">  Register Now</a>
+								<p class="text-white text-center mt-2"><font color="black">Looking for Moderator Login?</font><br><a href="adminlogin.php">Click here!</a></p>
+							
+						
 
 					</form>
 				</div>

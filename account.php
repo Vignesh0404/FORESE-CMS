@@ -3,10 +3,10 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>HTML CSS FAQ Design | Webdevtrick.com</title>
+  <title>FORESEDB | MY ACCOUNT</title>
   <link rel='stylesheet' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
 <style>
-	/* Code By Webdevtrick ( https://webdevtrick.com ) */
+	
 @import url('https://fonts.googleapis.com/css?family=Hind:300,400');
 *, *:before, *:after {
   -webkit-box-sizing: inherit;

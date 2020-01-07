@@ -13,7 +13,7 @@
 
     if (!isset($_SESSION['vid'])) {
         header('location: signin.php');
-        exit();
+        exit();               						
     }
  ?>
 <!DOCTYPE html>
@@ -21,13 +21,14 @@
 <head>
 	<title>FORESE DB | HOME</title>
     <meta name=”viewport” content=”width=device-width, initial-scale=1″>
+    <link rel="shortcut icon" type="image/x-icon" href="logo.jpg" />
 	<link rel="stylesheet" href="https://cdn.rawgit.com/balzss/luxbar/ae5835e2/build/luxbar.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	
 </head>
 <body>
 	<header id="luxbar" class="luxbar-fixed">
@@ -48,7 +49,8 @@
 		<div id="body">
 			</br>
 			</br>
-			</br>
+		</br>
+			
 			<?php $uname = $_SESSION['username']; ?>
 			<h3 class="text-primary"> Welcome, <?php echo $uname; ?></h3>
 			 <hr style="border-top:1px dotted #ccc;"/>
@@ -118,37 +120,37 @@
 					        
 							  <div class="form-group">
 							    <label>Name</label>
-							    <input type="text" class="form-control" name="hrname" placeholder="Enter the HR Name">
+							    <input type="text" class="form-control" name="hrname" value="<?php echo $hrname; ?>" placeholder="Enter the HR Name">
 							  </div>
 							  <input type="hidden" class="form-control" name="username" value=<?php echo $uname; ?>>							  
 							  <div class="form-group">
 							    <label>Company</label>
-							    <input type="text" class="form-control" name="company" placeholder="Enter the HR's Company">
+							    <input type="text" class="form-control" name="company" value="<?php echo $company; ?>" placeholder="Enter the HR's Company">
 							  </div>
 
 							  <div class="form-group">
 							    <label>Email</label>
-							    <input type="email" class="form-control" name="emailid" placeholder="Enter the HR's Email">
+							    <input type="email" class="form-control" name="emailid" value="<?php echo $emailid; ?>" placeholder="Enter the HR's Email">
 							  </div>
 
 							  <div class="form-group">
 							    <label>Ph-Num</label>
-							    <input type="number" class="form-control" name="phno" placeholder="Enter the phone number of the HR">
+							    <input type="number" class="form-control" name="phno" value="<?php echo $phno; ?>" placeholder="Enter the phone number of the HR">
 							  </div>
 
 							  <div class="form-group">
 							    <label>Address</label>
-							    <input type="text" class="form-control" name="address" placeholder="Enter the Address">
+							    <input type="text" class="form-control" name="address" value="<?php echo $address; ?>" placeholder="Enter the Address">
 							  </div>
 							  <div class="form-group">
 							  	<label>Status</label>
-							  <select class="form-control" name="status" type="text">
+							  <select class="form-control" name="status" value="<?php echo $status; ?>" type="text">
 							  	
 							  <option>Called/Accepted</option>
 							  <option>Called/Declined</option>
 							  <option>Called/Emailed</option>
 							  <option>Called/YetToMail</option>
-							  <option>Called/NotCalled</option>
+							  <option>NotCalled</option>
 							  <option>Called/SwitchedOff</option>
 							  <option>Called/NotReacheable</option>
 							  <option>Others</option>
@@ -159,7 +161,7 @@
 
 							  <div class="form-group">
 							    <label>Dates</label>
-							    <input type="number" class="form-control" name="dates" placeholder="Enter the num of dates" >
+							    <input type="number" class="form-control" name="dates" value="<?php echo $dates; ?>" placeholder="Enter the num of dates" >
 							  </div>
 					      </div>
 					      <div class="modal-footer">
@@ -174,7 +176,7 @@
 
 			<!-- ######################################################################################################-->
 
-				<!-- EDIT  -->
+				 <!--EDIT -->  
 
 				<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
@@ -188,7 +190,7 @@
 
 					      <form action="conn.php" method="POST">
 					      <div class="modal-body">
-					        <input type="hidden" name="edit_id" id="edit_id">
+					        <input type="hidden" name="update_id" value="<?php echo $id; ?>" id="update_id">
 							  <div class="form-group">
 							    <label>Name</label>
 							    <input type="text" class="form-control" name="hrname" id="hrname" placeholder="Enter the HR Name">
@@ -222,7 +224,7 @@
 							  <option>Called/Declined</option>
 							  <option>Called/Emailed</option>
 							  <option>Called/YetToMail</option>
-							  <option>Called/NotCalled</option>
+							  <option>NotCalled</option>
 							  <option>Called/SwitchedOff</option>
 							  <option>Called/NotReacheable</option>
 							  <option>Others</option>
@@ -242,7 +244,7 @@
 					      </form>
 					    </div>
 					  </div>
-					</div>
+					</div> 
 
 
 			<!-- ######################################################################################################-->
@@ -253,7 +255,7 @@
 
 			<!-- ######################################################################################################-->
 
-				<!-- DELETE  -->
+				<!-- DELETE  
 
 				<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
@@ -277,23 +279,21 @@
 					      </form>
 					    </div>
 					  </div>
-					</div>
+					</div> -->
 
 
 			<!-- ######################################################################################################-->
                 	
 
-                	<div class="container">
-                	 
-                		<div class="card-body">
-                			<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#hrdetailmodal" style="position: fixed; right: 100px;top: 250px; color: black;">
+                	
+                			<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#hrdetailmodal" style="position: fixed; right: 65px;top: 250px; color: black;">
 							  <i class="fas fa-user-plus"></i> Add Contact
 							</button>
                 		</div>	
                 	</div>
 
 
-                	<div class="card" style="width: 1100px; ">
+                	
                 		
                 		<div class="card-body" >
                 			
@@ -312,9 +312,10 @@
 
 
                 			<div class="table-responsive">
-                			<table id="datatable" class="table table-bordered" align="center">
+                			<table id="datatable" class="table table-bordered">
 						  <thead class="thead-dark">
 						    <tr>
+						      <th scope="col">ID</th>
 						      <th scope="col">Name</th>
 						      <th scope="col">Company</th>
 						      <th scope="col">PhNum</th>
@@ -335,7 +336,7 @@
 		                	?>	
 						  <tbody>
 						    <tr>
-						      
+						      <td><?php echo $row['id']; ?></td>
 						      <td><?php echo $row['hrname']; ?></td>
 						      <td><?php echo $row['company']; ?></td>
 						      <td><?php echo $row['phno']; ?></td>
@@ -343,8 +344,8 @@
 						      <td><?php echo $row['address']; ?></td>
 						      <td><?php echo $row['status']; ?></td>
 						      <td><?php echo $row['dates']; ?></td>
-						      <td><button type="button" class="btn btn-success editbtn">EDIT</button></td>
-						      <td><button type="button" class="btn btn-danger deletebtn">DELETE</button></td>
+						      <td><button type="button" class="btn btn-success editbtn">EDIT</a></button></td>
+						      <td><button type="button" class="btn btn-danger deletebtn" onclick="window.location.href='home.php?delete=<?php echo $row['id']; ?>'">DELETE</button></td>
 						    </tr>
 						  </tbody>
 						  <?php				
@@ -360,9 +361,7 @@
 					</div>
 
                 
-                	</div>
-                	</div>
-                </div>
+                	
 
 
 
@@ -428,24 +427,20 @@
 							}).get();
 
 							console.log(data);
-							
-							$('#hrname').val(data[0]);
-							$('#company').val(data[1]);
-							$('#phno').val(data[2]);
-							$('#emailid').val(data[3]);
-							$('#address').val(data[4]);
-							$('#status').val(data[5]);
-							$('#dates').val(data[6]);
+							$('#update_id').val(data[0])
+							$('#hrname').val(data[1]);
+							$('#company').val(data[2]);
+							$('#phno').val(data[3]);
+							$('#emailid').val(data[4]);
+							$('#address').val(data[5]);
+							$('#status').val(data[6]);
+							$('#dates').val(data[7]);
 						});
 
 					});
 				</script>
 
-				 <script>
-
-        
-
-    </script>
+				
            
 </body>
 </html>
